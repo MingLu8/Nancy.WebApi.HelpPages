@@ -118,12 +118,7 @@
     <Compile Include="HelpPage\ModelDescriptions\ParameterAnnotation.cs" />
     <Compile Include="HelpPage\ModelDescriptions\ParameterDescription.cs" />
     <Compile Include="HelpPage\ModelDescriptions\SimpleTypeModelDescription.cs" />
-    <Compile Include="HelpPage\SampleGeneration\HelpPageSampleGenerator.cs" />
-    <Compile Include="HelpPage\SampleGeneration\ImageSample.cs" />
-    <Compile Include="HelpPage\SampleGeneration\InvalidSample.cs" />
     <Compile Include="HelpPage\SampleGeneration\ObjectGenerator.cs" />
-    <Compile Include="HelpPage\SampleGeneration\SampleDirection.cs" />
-    <Compile Include="HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="HelpPage\IApiExplorer.cs" />
     <Compile Include="HelpPage\RouteSummary.cs" />
