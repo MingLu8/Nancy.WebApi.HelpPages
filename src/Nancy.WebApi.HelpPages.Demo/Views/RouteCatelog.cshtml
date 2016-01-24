@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <link href="/Content/css/bootstrap.css" rel="stylesheet" />
+    <link href="/Content/css/HelpPage.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="body" class="help-page">
+    <section class="content-wrapper main-content clear-fix">
+
+
+        @foreach (var moduleRouteSummary in Model)
+        {
+            <h2>@moduleRouteSummary.ModuleName</h2>
+
+            <table class="help-page-table">
+                <thead>
+                <tr><th>API</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                @foreach (var route in moduleRouteSummary.Routes)
+                {
+                    <tr>
+                        <td class="api-name"><a href="@route.Url">@route.Name</a></td>
+                        <td class="api-documentation">
+                            @*@if (@endPoint.Description != null)
+                            {
+                                <p>@endPoint.Description</p>
+                            }
+                            else
+                            {
+                                <p>No documentation available.</p>
+                            }*@
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </section>
+        </div>
+</body>
+</html>
