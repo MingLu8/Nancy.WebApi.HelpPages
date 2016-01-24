@@ -1,0 +1,171 @@
+@using WebApplication1.Areas.HelpPage.ModelDescriptions
+@{ var viewModel = Model; }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <link href="/Content/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/Content/css/HelpPage.css" rel="stylesheet"/>
+</head>
+<body>
+    <div id="body" class="help-page">
+        @if (viewModel.GetType() == typeof (KeyValuePairModelDescription) || viewModel.GetType() == typeof(DictionaryModelDescription))
+                    {
+
+                        if (viewModel.GetType() == typeof (DictionaryModelDescription))
+                        {
+                <h1>Dictionary</h1>
+                        }
+                        else
+                        {
+                <h1>Key Value Pair</h1>
+                        }
+            <table class="help-page-table">
+                <thead>
+                <tr><th>Name</th><th>Description</th><th>Type</th></tr>
+                </thead>
+                <tbody>
+                @{
+                    var modelDescription = viewModel.KeyModelDescription;
+                    <tr>
+                        <td class="parameter-name">Key</td>
+                        <td class="parameter-documentation">
+                            <p>@modelDescription.Documentation</p>
+                        </td>
+                        <td class="parameter-type">
+                            @if (modelDescription.GetType() == typeof (SimpleTypeModelDescription))
+                            {
+                                @modelDescription.Name
+            }
+                            else
+                            {
+                                <a href="/help/resourceModel/@modelDescription.ModelType.ToString()">@modelDescription.Name</a>
+                            }
+
+                            @* @Html.DisplayFor(m => modelDescription.ModelType, "ModelDescriptionLink", new {modelDescription = modelDescription})*@
+                        </td>
+                    </tr>
+                    modelDescription = viewModel.ValueModelDescription;
+                    <tr>
+                        <td class="parameter-name">Value</td>
+                        <td class="parameter-documentation">
+                            <p>@modelDescription.Documentation</p>
+                        </td>
+                        <td class="parameter-type">
+                            @if (modelDescription.GetType() == typeof (SimpleTypeModelDescription))
+                            {
+                                @modelDescription.Name
+                            }
+                            else
+                            {
+                                <a href="/help/resourceModel/@modelDescription.ModelType.ToString()">@modelDescription.Name</a>
+                            }
+
+                            @* @Html.DisplayFor(m => modelDescription.ModelType, "ModelDescriptionLink", new {modelDescription = modelDescription})*@
+                        </td>
+                    </tr>
+                }
+                
+                </tbody>
+            </table>
+        }
+        else
+        {
+            if (viewModel.GetType() == typeof (CollectionModelDescription))
+            {
+
+                viewModel = viewModel.ElementDescription;
+                <h1>Collection of Elelment: @viewModel.Name:</h1>
+            }
+            else
+            {
+                <h1>@viewModel.Name</h1>
+                <p>@viewModel.Documentation</p>
+            }
+
+            <section class="content-wrapper main-content clear-fix">
+                @if (viewModel.GetType() == typeof (EnumTypeModelDescription))
+                {
+
+                    <p>Possible enumeration values:</p>
+
+                    <table class="help-page-table">
+                        <thead>
+                        <tr><th>Name</th><th>Value</th><th>Description</th></tr>
+                        </thead>
+                        <tbody>
+                        @foreach (EnumValueDescription value in viewModel.Values)
+                        {
+                            <tr>
+                                <td class="enum-name"><b>@value.Name</b></td>
+                                <td class="enum-value">
+                                    <p>@value.Value</p>
+                                </td>
+                                <td class="enum-description">
+                                    <p>@value.Documentation</p>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                }
+                else if (viewModel.Properties != null)
+                {
+
+                    if (viewModel.Properties.Count > 0)
+                    {
+                        <table class="help-page-table">
+                            <thead>
+                            <tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var parameter in viewModel.Properties)
+                            {
+                                var modelDescription = parameter.TypeDescription;
+                                <tr>
+                                    <td class="parameter-name">@parameter.Name</td>
+                                    <td class="parameter-documentation">
+                                        <p>@parameter.Documentation</p>
+                                    </td>
+                                    <td class="parameter-type">
+                                        @if (modelDescription.GetType() == typeof (SimpleTypeModelDescription))
+                                        {
+                                            @modelDescription.Name
+                                        }
+                                        else
+                                        {
+                                            <a href="/help/resourceModel/@modelDescription.ModelType.ToString()">@modelDescription.Name</a>
+                                        }
+
+                                        @* @Html.DisplayFor(m => modelDescription.ModelType, "ModelDescriptionLink", new {modelDescription = modelDescription})*@
+                                    </td>
+                                    <td class="parameter-annotations">
+                                        @if (parameter.Annotations.Count > 0)
+                                        {
+                                            foreach (var annotation in parameter.Annotations)
+                                            {
+                                                <p>@annotation.Documentation</p>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <p>None.</p>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>None.</p>
+                    }
+                }
+            </section>
+        }
+    </div>
+</body>
+</html>
